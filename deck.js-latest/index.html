@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+
+  <title>Git et les VCS</title>
+
+  <!-- Required stylesheet -->
+  <link rel="stylesheet" media="screen" href="core/deck.core.css">
+
+  <!-- Extension CSS files go here. Remove or add as needed. -->
+  <link rel="stylesheet" media="screen" href="extensions/goto/deck.goto.css">
+  <link rel="stylesheet" media="screen" href="extensions/menu/deck.menu.css">
+  <link rel="stylesheet" media="screen" href="extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" media="screen" href="extensions/status/deck.status.css">
+  <link rel="stylesheet" media="screen" href="extensions/scale/deck.scale.css">
+
+  <!-- Style theme. More available in /themes/style/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/style/web-2.0.css">
+
+  <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/transition/vertical-slide.css">
+
+  <!-- Basic black and white print styles -->
+  <link rel="stylesheet" media="print" href="core/print.css">
+
+  <!-- Required Modernizr file -->
+
+  <script src="modernizr.custom.js"></script>
+</head>
+<body>
+  <div class="deck-container">
+
+    <!-- Begin slides. Just make elements with a class of slide. -->
+
+    <section class="slide">
+      <h1>Git et les VCS</h1>
+      <h1><img style="transform: translate(0px, +250%)" src="res/esir.jpg"/></h1>
+      <h1><img style="transform: translate(200px, +700%)" src="res/licence.png"/></h1>
+    </section>
+
+    <section class="slide">
+      <h2>Alexandre Rio</h2>
+      <blockquote>
+        <p>not a git guru</p>
+        <p>dev</p>
+        <p>packager</p>
+        <p>http://alexrio.fr</p>
+      </blockquote>
+    </section>
+
+    <section class="slide">
+      <h2>Définition</h2>
+      <blockquote>
+        <p>Un logiciel de gestion de versions (ou VCS en anglais, pour Version Control System) est un logiciel qui permet de stocker un ensemble de fichiers en conservant la chronologie de toutes les modifications qui ont été effectuées dessus. </p>
+        <p><cite>Wikipedia.org</cite></p>
+      </blockquote>
+    </section>
+
+    <section class="slide">
+      <h2>Distribué ou centralisé</h2>
+      <h4 class="slide">Centralisé</h4>
+      <ul class="slide">
+        <li>CVS (1990)</li>
+        <li>SVN (2000)</li>
+      </ul>
+      <h4 class="slide">Distribué</h4>
+      <ul class="slide">
+        <li>Git (2005)</li>
+        <li>Mercurial (2005)</li>
+        <li>Bazaar (2005)</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Centralisé</h2>
+      <img src="res/centralized.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>Distribué</h2>
+      <img src="res/distributed.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>Mettre en place un projet git</h2>
+
+      <pre><code>&gt; ls -al
+index.html</code></pre>
+      <pre><code>&gt; git init</code></pre>
+      <pre><code>&gt; ls -al
+index.html
+.git/</code></pre>
+    </section>
+
+    <section class="slide">
+      <h1>Presque tout est local</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Intérêts :</h2>
+      <ul>
+        <li>Travailler offline</li>
+        <li>Remettre en place un serveur depuis un client</li>
+        <li>Naviguer parmi les versions «instantanément»</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Git surveille toutes les modifications</h2>
+      <h2>mais…</h2>
+      <ul>
+        <li>il faut ajouter les sous-dossiers</li>
+        <li>on peut exclure par pattern ( *.class, *.o, …) </li>
+        <li>il faut éviter les binaires</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Git voit les fichiers sous 4 états</h2>
+      <h3>Untracked</h3>
+      <p>État des nouveaux fichiers</p>
+      <h3>Unmodified</h3>
+      <p>Fichiers «Tracked» non modifiés</p>
+      <h3>Modified</h3>
+      <p>Fichiers «Tracked» modifiés.</p>
+      <h3>Staged</h3>
+      <p>Fichiers «Tracked» modifiés prêts à être «sauvés».</p>
+    </section>
+
+    <section class="slide">
+      <h2>En résumé</h2>
+      <img src="res/lifecycle.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>Pour savoir où on en est</h2>
+      <pre><code>&gt; git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+    (use "git checkout -- <file>..." to discard changes in working directory)
+
+            modified:   readme
+
+            no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>git add <i>&lt;fichier&gt;</i></h2>
+      <h3>Ajouter un nouveau fichier</h3>
+      <p>Le fichier passe de l'état Untracked à Unmodified</p>
+      <h3>Valider les changements d'un fichier</h3>
+      <p>Le fichier passe de l'état Modified à Staged</p>
+      <h3>Sur un dossier tous le contenu sera affecté</h3>
+    </section>
+
+    <section class="slide">
+      <h2>Le plus important : git commit</h2>
+      <p>Prend tous les fichiers de la zone Staged et créer un point
+      de sauvegarde.</p>
+      <p>Les fichiers impactés redeviennent Unmodified, les autres restent dans
+      leur état.</p>
+      <p>À chaque commit est associé un identifiant unique.</p>
+      <p>À chaque commit est associé un message.</p>
+      <p>À chaque commit est associé le nom / email de son auteur.</p>
+    </section>
+
+    <section class="slide">
+      <h2>Au fil du temps…</h2>
+      <img src="res/commits.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>Modifier quelques paramètres</h2>
+      <pre><code>&gt; git config --global user.name "John Doe"
+&gt; git config --global user.email johndoe@example.com</code></pre>
+      <p>L'éditeur utilisé par git commit peut être défini de plusieurs manières:</p>
+      <ul>
+        <li>via git : git config --global core.editor "/usr/bin/vim"</li>
+        <li>via une variable d'environnement : $VISUAL ou $EDITOR</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Visualiser les commits</h2>
+      <pre><code>
+&gt; git log
+  commit a3b4da4d81d73b3dc4fc4a1b51029c2e14f145b9
+  Author: Alexandre Rio <contact@alexrio.fr>
+  Date:   Sun May 11 14:53:41 2014 +0200
+
+    add src
+
+  commit f86b378cfe5c402f78e679d800e92b6be2f4f03b
+  Author: Alexandre Rio <contact@alexrio.fr>
+  Date:   Sun May 11 14:27:38 2014 +0200
+
+    inital commit</code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Visualiser les différences</h2>
+      <pre><code>
+&gt; git diff HEAD src/main.java
+diff --git a/src/main.java b/src/main.java
+index e69de29..138030e 100644
+--- a/src/main.java
++++ b/src/main.java
+@@ -0,0 +1,3 @@
++public static void main (String[] args) {
++}
++</code></pre>
+    </section>
+
+    <section class="slide">
+      <h1>Visualiser avec une GUI : gitg, gitk…</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Revenir en arrière</h2>
+      <h3>Oublier un fichier pour un commit</h3>
+      <pre><code>git commit --amend</code></pre>
+      <p>Prend le contenu de la zone Staged et l'ajoute au dernier commit</p>
+      <pre><code>git commit -m "change the world"
+git add src/mySuperFile.cpp
+git commit --amend</code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Revenir en arrière</h2>
+      <h3>Dans les autres cas…</h3>
+      <section class="slide">
+        <h3>…ça dépend de :</h3>
+        <ul>
+          <li>où on se trouve</li>
+          <li>où se trouve le fichier qu'on veut restaurer</li>
+        </ul>
+      </section>
+    </section>
+
+    <section class="slide">
+      <h2>Revenir en arrière</h2>
+      <h3>Un exemple</h3>
+      <pre><code>git reset --soft HEAD~1</code></pre>
+      <p>HEAD~1 : le commit avant HEAD ( peut s'écrire HEAD^ )</p>
+      <p>On peut donner le SHA-1 du commit, ou juste les premiers caractères</p>
+      <p>--soft nous remet dans l'état avant l'ajout en Staged</p>
+      <p>--hard aurait supprimé les modifications</p>
+    </section>
+
+    <section class="slide">
+      <h1>Plein de fonctionnalités mais encore trop peu…</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Travailler avec un serveur ( repository)</h2>
+      <pre><code>&gt; git remote -v
+&gt; </code></pre>
+      <h2>Différents protocoles</h2>
+      <ul>
+        <li>local</li>
+        <li>http(s)</li>
+        <li>ssh ← &lt;3</li>
+        <li>git</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Mettre en place un serveur</h2>
+      <ul>
+        <li>Solution toute faite : Github, Bitbucket…</li>
+        <li>Sur son serveur :
+        <ul>
+          <li><code>mkdir projet.git && cd projet.git</code></li>
+          <li><code>git --bare init</code></li>
+        </ul></li>
+      </ul>
+      <h2>Récupérer *toutes* les données</h2>
+      <ul>
+        <li>Lecture seule : <code>git clone https://github.com/AlexandreRio/nfo-modifier.git</code></li>
+        <li>Lecture et écriture : <code>git clone git@github.com:AlexandreRio/nfo-modifier.git</code></li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Si on vient de le créer</h2>
+      <pre><code>git remote add origin git@github.com:AlexandreRio/nfo-modifier.git</code></pre>
+      <ul>
+        <li><h3>origin est par convention le nom que l'on donne au remote</h3></li>
+        <li><h3>protocole git pour pouvoir envoyer des données sur le serveur</h3></li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>On a donc un serveur en place…</h2>
+      <section class="slide">
+        <h2>Des données ( commits ) en local…</h2>
+        <section class="slide">
+          <h2>Envoyer les données c'est simple :</h2>
+          <pre><code>git push origin master</code></pre>
+        </section>
+      </section>
+    </section>
+
+    <section class="slide">
+      <h1>C'est quoi master ?</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Pourquoi avoir plusieurs branches ?</h2>
+      <ul>
+        <li>Avoir plusieurs états d'un même projet ( stable, unstable)</li>
+        <li>Corriger un bug alors que l'on modifie des fichiers</li>
+        <li>Travailler à plusieurs</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Avec une branche</h2>
+      <img src="res/branch0.png"/>
+      <pre><code>&gt; git branch iss53
+&gt; git checkout iss53</code></pre>
+      <h2>Avec deux branches</h2>
+      <img src="res/branch1.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>Maintenant si on fait un commit</h2>
+      <img src="res/branch2.png"/>
+      <p>On se replace sur master ( <code>git checkout master</code> )
+      on fait encore une nouvelle branche ( <code>git checkout -b hotfix</code> )
+      et un nouveau commit.</p>
+      <img src="res/branch3.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>Recoller les morceaux</h2>
+      <pre><code>&gt; git checkout master
+&gt; git merge hotfix</code></pre>
+      <p>Un merge simple</p>
+      <img src="res/branch4.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>On supprime la branche inutile</h2>
+      <pre><code>git branch -d hotfix</code></pre>
+      <img src="res/branch5.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>Three-way merge</h2>
+      <img src="res/branch6.png"/>
+    </section>
+
+    <section class="slide">
+      <h2>En théorie, on merge de la même manière</h2>
+      <pre><code>&gt; git checkout master
+&gt; git merge iss53</code></pre>
+      <img src="res/branch7.png"/>
+      <p>Puis on supprime la branche, de la même manière</p>
+    </section>
+
+    <section class="slide">
+      <h2>On pratique, on peut avoir des conflits à régler</h2>
+      <pre><code>CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result</code></pre>
+      <p>Git fait ce qu'il peut, nous laisse corriger le reste, puis commit.</p>
+    </section>
+
+    <section class="slide">
+      <h2>Les fichiers en conflits</h2>
+      <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id="footer"&gt;
+  please contact us at support@github.com
+&lt;/div&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53</code></pre>
+      <p>On garde ce qu'on veut, puis on staged le fichier ( <code>git add</code>
+      ) puis on commit.</p>
+    </section>
+
+    <section class="slide">
+      <h2>On a dit tout est local</h2>
+      <p>Si on veut les branches sur le serveur, il faut les «push».</p>
+      <pre><code>git push origin testing</code></pre>
+      <h2>Et finalement pour récupérer les données</h2>
+      <pre><code>git fetch origin</code></pre>
+      <p>Récupère toutes les branches</p>
+    </section>
+
+    <section class="slide">
+      <h2>Afficher les branches locales</h2>
+      <pre><code>git branch</code></pre>
+      <h2>Afficher les branches distantes</h2>
+      <pre><code>git branch -r</code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Quelques commandes utiles</h2>
+      <ul>
+        <li><code>git tag -a "1.0"</code> Annote le commit HEAD</li>
+        <li><code>git blame file.java</code> Affiche qui a modifié le fichier</li>
+      </ul>
+      <h2>Les hooks</h2>
+      <ul>
+        <li>côté client après un commit</li>
+        <li>côté serveur après un push</li>
+      </ul>
+    </section>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+      <span class="deck-status-current"></span>
+      /
+      <span class="deck-status-total"></span>
+    </p>
+
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+      <label for="goto-slide">Go to slide:</label>
+      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+      <datalist id="goto-datalist"></datalist>
+      <input type="submit" value="Go">
+    </form>
+
+    <!-- End extension snippets. -->
+  </div>
+
+<!-- Required JS files. -->
+<script src="jquery.min.js"></script>
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="extensions/menu/deck.menu.js"></script>
+<script src="extensions/goto/deck.goto.js"></script>
+<script src="extensions/status/deck.status.js"></script>
+<script src="extensions/navigation/deck.navigation.js"></script>
+<script src="extensions/scale/deck.scale.js"></script>
+
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+  $(function() {
+    $.deck('.slide');
+  });
+</script>
+<!-- <script src="http://localhost/socket.io/socket.io.js"></script> -->
+<!-- <script src="http://localhost/remote.js"></script>              -->
+</body>
+</html>
